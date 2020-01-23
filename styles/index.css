@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   text-align: center;
+  overflow-y: scroll;
 }
 
 canvas { 
