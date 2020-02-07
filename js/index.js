@@ -1,25 +1,36 @@
 var scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xffffff );
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-hlight = new THREE.AmbientLight(0x404040, 100);
+var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+camera.rotation.y = 45/180*Math.PI;
+camera.position.x = 800;
+camera.position.y = 100;
+camera.position.z = 1000;
+
+hlight = new THREE.AmbientLight(0x303030);
 scene.add(hlight);
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize( window.innerWidth / 1.5, window.innerHeight / 1.5 );
+renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-
-// var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-// var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-// var cube = new THREE.Mesh( geometry, material );
-// scene.add( cube );
 
 let loader = new THREE.GLTFLoader();
 loader.load('Lamborghini_Aventador.gltf', function(gltf){
+  car = gltf.scene.children[0];
+  car.scale.set(0.5,0.5,0.5);
   scene.add(gltf.scene);
-  renderer.render(scene, camera);
+  animate();
+}, undefined, function(error) {
+  console.log(error);
 })
 
+controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+function animate() {
+  renderer.render(scene, camera);
+  controls.update();
+  requestAnimationFrame(animate);
+}
 
 // camera.position.z = 5;
 
