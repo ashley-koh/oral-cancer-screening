@@ -66,7 +66,7 @@ mtlLoader.load( mtlFile, function(materials) {
       div.textContent = text;
       div.style.marginTop = '-1em';
       div.addEventListener("click", function() {
-        location.href = './pages/' + linkName + '/index.html';
+        location.href = './oral-cancer-screening/pages/' + linkName + '/index.html';
       });
 
       label = new THREE.CSS2DObject( div );
