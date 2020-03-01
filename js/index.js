@@ -65,10 +65,19 @@ mtlLoader.load( mtlFile, function(materials) {
       div.className = 'label';
       div.textContent = text;
       div.style.marginTop = '-1em';
-      div.addEventListener("click", function() {
+
+      div.addEventListener("click", routeToLink);
+      div.addEventListener("touchstart", routeToLink);
+      // div.addEventListener("click touchstart", function() {
+      //   location.href = 'https://ashley-koh.github.io/oral-cancer-screening/pages/' + linkName + '/index.html';
+      //   // location.href = 'oral-cancer-screening/pages/' + linkName + '/index.html';
+      // });
+
+      function routeToLink(event) {
+        event.preventDefault();
         location.href = 'https://ashley-koh.github.io/oral-cancer-screening/pages/' + linkName + '/index.html';
-        // location.href = 'oral-cancer-screening/pages/' + linkName + '/index.html';
-      });
+        // location.href = '/pages/' + linkName + '/index.html';
+      }
 
       label = new THREE.CSS2DObject( div );
       label.position.set(x, y, z);
