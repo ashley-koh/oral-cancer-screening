@@ -115,7 +115,7 @@ function onWindowResize() {
 }
 
 // Event Listeners to detect whether user input is click or drag
-let downX, downY;
+let moved;
 let selectedObject = null;
 
 function onMouseMove( event ) {
@@ -145,16 +145,9 @@ function onMouseMove( event ) {
       selectedObject.scale.set( 1.1, 1.1, 1.1 );
       document.body.style.cursor = 'pointer';
 
-      document.body.onmousedown = (e) => {
-        downX = e.clientX;
-        downY = e.clientY;
-      }
+      document.body.onmousedown = (e) => moved = false;
       document.body.onmouseup = (e) => {
-
-        let deltaX = downX - e.clientX;
-        let deltaY = downY - e.clientY;
-
-        if (deltaX < 5 && deltaY < 5) {
+        if (!moved) {
           location.href = 'https://ashley-koh.github.io/oral-cancer-screening/pages/' + selectedObject.name + '/index.html';
           // location.href = '/pages/' + linkName + '/index.html';
         }
