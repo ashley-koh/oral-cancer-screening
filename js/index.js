@@ -13,9 +13,6 @@ const labels = [{
 }
 ];
 
-let raycaster = new THREE.Raycaster();
-let mouse = new THREE.Vector2();
-
 let scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xffffff );
 
@@ -23,7 +20,7 @@ let camera = new THREE.PerspectiveCamera( 10, window.innerWidth / window.innerHe
 camera.rotation.y = 45/180*Math.PI;
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 70;
+camera.position.z = 50;
 
 hlight = new THREE.AmbientLight(0xffffff);
 scene.add(hlight);
@@ -34,12 +31,15 @@ keyLight.position.set(-10, 0, 10);
 let fillLight = new THREE.DirectionalLight(0xffffff, 1.0);
 fillLight.position.set(10, 0, 10);
 
-// let backLight = new THREE.DirectionalLight(0xffffff, 1.0);
-// backLight.position.set(0, 0, -10).normalize();
+let backLight = new THREE.DirectionalLight(0xdddddd, 1.0);
+backLight.position.set(0, 0, -10).normalize();
 
 scene.add(keyLight);
 scene.add(fillLight);
-// scene.add(backLight);
+scene.add(backLight);
+
+
+let sprites = new THREE.Group();
 
 let loader = new THREE.GLTFLoader();
 loader.load('model/mouth_scaled.glb', function ( gltf ) {
@@ -53,21 +53,18 @@ loader.load('model/mouth_scaled.glb', function ( gltf ) {
 
   scene.add( gltf.scene );
 
+  gltf.scene.add( sprites );
+
   labels.map( label => {
 
     let { linkName, text, position } = label;
     let { x, y, z } = position;
 
-    let div = document.createElement('div');
-    div.className = 'label';
-    div.textContent = text;
-    div.style.marginTop = '-1em';
-
-    
 
     let spritey = makeTextSprite( text );
+    spritey.name = linkName;
     spritey.position.set(x, y, z);
-    gltf.scene.add(spritey)
+    sprites.add(spritey)
 
   })
 
@@ -89,27 +86,111 @@ document.body.appendChild( renderer.domElement );
 let controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 function animate() {
+
+  // update the picking ray with the camera and mouse position
+  raycaster.setFromCamera( mouse, camera );
+
+  // calculate objects intersecting the picking ray
+  let intersects = raycaster.intersectObjects( scene.children );
+
+  for ( let i = 0; i < intersects.length; i++ ) {
+    intersects[i].object.material.color.set( 0xff0000 );
+  }
+
   renderer.render( scene, camera );
   controls.update();
   requestAnimationFrame( animate );
 }
 
-function makeTextSprite( message ) {
+window.addEventListener( 'resize', onWindowResize, false );
+window.addEventListener( 'mousemove', onMouseMove, false );
+
+function onWindowResize() {
+
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+// Event Listeners to detect whether user input is click or drag
+let downX, downY;
+let selectedObject = null;
+
+function onMouseMove( event ) {
+
+  event.preventDefault();
+
+  moved = true;
+  
+  if ( selectedObject ) {
+
+    selectedObject.scale.set( 1, 1, 1 );
+    document.body.style.cursor = 'default';
+    selectedObject = null;
+
+  }
+
+  let intersects = getIntersects( event.layerX, event.layerY );
+  if ( intersects.length > 0 ) {
+
+    let res = intersects.filter( function ( res ) {
+      return res && res.object;
+    })[0];
+
+    if ( res && res.object ) {
+
+      selectedObject = res.object;
+      selectedObject.scale.set( 1.1, 1.1, 1.1 );
+      document.body.style.cursor = 'pointer';
+
+      document.body.onmousedown = (e) => {
+        downX = e.clientX;
+        downY = e.clientY;
+      }
+      document.body.onmouseup = (e) => {
+
+        let deltaX = downX - e.clientX;
+        let deltaY = downY - e.clientY;
+
+        if (deltaX < 5 && deltaY < 5) {
+          location.href = 'https://ashley-koh.github.io/oral-cancer-screening/pages/' + selectedObject.name + '/index.html';
+          // location.href = '/pages/' + linkName + '/index.html';
+        }
+      }
+    }
+
+  }
+  
+
+}
+
+let raycaster = new THREE.Raycaster();
+let mouse = new THREE.Vector2();
+
+function getIntersects( x, y ) {
+
+  // calculate mouse position in normalized device coordinates
+  // (-1 to +1) for both components
+  x = ( x / window.innerWidth ) * 2 - 1;
+  y = - ( y / window.innerHeight ) * 2 + 1;
+
+  mouse.set( x, y );
+  raycaster.setFromCamera( mouse, camera );
+
+  return raycaster.intersectObject( sprites, true );
+
+}
+
+// Sprite Generator
+function makeTextSprite( message, linkName ) {
   
   let fontsize = 40;
   let borderThickness = 6;
   let canvas = document.createElement("canvas");
 
   canvas.className = "label";
-
-  canvas.addEventListener("click", routeToLink);
-  canvas.addEventListener("touchstart", routeToLink);
-
-  function routeToLink(event) {
-    event.preventDefault();
-    location.href = 'https://ashley-koh.github.io/oral-cancer-screening/pages/' + linkName + '/index.html';
-    // location.href = '/pages/' + linkName + '/index.html';
-  }
 
   let context = canvas.getContext("2d");
 
