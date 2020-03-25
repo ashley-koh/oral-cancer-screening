@@ -100,7 +100,8 @@ const questions = [
   }
 ]
 
-$(document).ready(
+$(document).ready(() => {
+
   questions.forEach( (question, index) => {
   
     // add title
@@ -120,9 +121,14 @@ $(document).ready(
       `)
     })
   
-  })
+  });
 
-)
+  $('#diagnosis-form').append(`
+    <div class="row">
+      <button type="button" class="btn btn-dark">Diagnose</button>
+    </div>
+  `)
+})
 
 function onRadioClick(value) {
 
