@@ -146,10 +146,14 @@ function onMouseMove( event ) {
       document.body.style.cursor = 'pointer';
 
       document.body.onmousedown = (e) => moved = false;
-      document.body.onmouseup = (e) => {
+      document.body.ontouchstart = (e) => moved = false;
+      document.body.onmouseup = (e) => route(e);
+      document.body.ontouchend = (e) => route(e);
+
+      function route(e) {
         if (!moved) {
-          location.href = 'https://ashley-koh.github.io/oral-cancer-screening/pages/' + selectedObject.name + '/index.html';
-          // location.href = '/pages/' + linkName + '/index.html';
+          // location.href = 'https://ashley-koh.github.io/oral-cancer-screening/pages/' + selectedObject.name + '/index.html';
+          location.href = '/pages/' + selectedObject.name + '/index.html';
         }
       }
     }
