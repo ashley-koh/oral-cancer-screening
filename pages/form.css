@@ -1,0 +1,56 @@
+body {
+	background-color: #e3cfe3;
+}
+
+.container-fluid {
+	padding: 3% 8%;
+}
+
+#header {
+	margin: 1em 0em;
+}
+
+#header h1 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#header .home-button {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+#diagnosis-form {
+	background-color: white;
+	border-radius: 1em;
+	padding: 2em 10%;
+}
+
+#diagnosis-form .row {
+	margin: 0px;
+	margin-bottom: 0.5em;
+}
+
+#diagnosis-form .title {
+	font-weight: 400;
+	font-size: 24px;
+	display: block;
+}
+
+#diagnosis-form .title::after {
+	font-weight: 400;
+	font-size: 24px;
+	content: ' *';
+	color: red;
+}
+
+#diagnosis-form label {
+	margin-right: 15px;
+}
+
+#diagnosis-form input {
+margin-right: 5px;
+}
+
+#diagnosis-form .card {
+margin-bottom: 2em;
+}
