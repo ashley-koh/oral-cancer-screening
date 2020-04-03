@@ -19,10 +19,23 @@ body {
 	margin-bottom: auto;
 }
 
-#diagnosis-form {
-	background-color: white;
-	border-radius: 1em;
-	padding: 2em 10%;
+@media only screen and (max-width: 420px) {
+	#diagnosis-form {
+		background-color: white;
+		border-radius: 1em;
+		padding: 24px 30px;
+	}
+}
+
+@media only screen and (min-width: 420px) {
+	#diagnosis-form {
+		background-color: white;
+		border-radius: 1em;
+		padding: 24px 50px;
+		max-width: 1200px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 
 #diagnosis-form .row {

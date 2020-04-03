@@ -111,3 +111,8 @@ function onDiagnoseClick() {
 	$('html,body').animate({ scrollTop: 0 }, 'slow');
 
 }
+
+function routeToHome() {
+	// location.href =  location.href = 'https://ashley-koh.github.io/oral-cancer-screening/index.html';
+	location.href = '/index.html';
+}
