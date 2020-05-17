@@ -1,5 +1,3 @@
-const { SOURCE } = config;
-
 const labels = [
   {
     linkName: "dorsum",
@@ -194,12 +192,12 @@ function onTouchStart(event) {
       document.body.ontouchend = (e) => {
         if (config === "production") {
           location.href =
-            "https://ashley-koh.github.io/oral-cancer-screening/pages/upper-mouth/" +
+            "https://ashley-koh.github.io/oral-cancer-screening/pages/tongue/" +
             selectedObject.name +
             "/index.html";
         } else {
           location.href =
-            "/pages/upper-mouth/" + selectedObject.name + "/index.html";
+            "/pages/tongue/" + selectedObject.name + "/index.html";
         }
       };
     }

@@ -1,1 +1,1 @@
-const config = "local";
+const config = "production";
