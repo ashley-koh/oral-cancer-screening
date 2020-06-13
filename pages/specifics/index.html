@@ -64,5 +64,11 @@
     <a id="overlay" class="btn btn-dark" href="/index.html" role="button"
       >Switch View</a
     >
+
+    <script>
+      var link = document.getElementById("overlay");
+      if (config === "production") link.href = "/oral-cancer-screening/";
+      else link.href = "/";
+    </script>
   </body>
 </html>

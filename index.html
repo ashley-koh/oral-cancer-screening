@@ -61,12 +61,13 @@
 
     <script id="model" src="index.js"></script>
 
-    <a
-      id="overlay"
-      class="btn btn-dark"
-      href="/pages/specifics/index.html"
-      role="button"
-      >Switch View</a
-    >
+    <a id="overlay" class="btn btn-dark" role="button">Switch View</a>
   </body>
+
+  <script>
+    var link = document.getElementById("overlay");
+    if (config === "production")
+      link.href = "/oral-cancer-screening/pages/specifics";
+    else link.href = "/pages/specifics";
+  </script>
 </html>
